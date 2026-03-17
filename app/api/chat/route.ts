@@ -47,17 +47,17 @@ export async function POST(req: Request) {
     })
 
     // Convert the response into a friendly text-stream
-    const stream = OpenAIStream(response)
+    const stream = OpenAIStream(response as any)
 
     // Respond with the stream
     return new StreamingTextResponse(stream)
   } catch (error: any) {
     console.error('OpenAI API error:', error)
-    
+
     // Handle specific error types
     if (error.status === 429) {
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           error: 'Rate limit exceeded or quota reached',
           message: 'You have exceeded your OpenAI API quota. Please check your usage at https://platform.openai.com/usage or add a payment method at https://platform.openai.com/account/billing',
           type: 'quota_exceeded'
@@ -65,10 +65,10 @@ export async function POST(req: Request) {
         { status: 429, headers: { 'Content-Type': 'application/json' } }
       )
     }
-    
+
     if (error.status === 401) {
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           error: 'Invalid API key',
           message: 'Your OpenAI API key is invalid. Please check your .env.local file and ensure the key is correct.',
           type: 'auth_error'
@@ -76,9 +76,9 @@ export async function POST(req: Request) {
         { status: 401, headers: { 'Content-Type': 'application/json' } }
       )
     }
-    
+
     return new Response(
-      JSON.stringify({ 
+      JSON.stringify({
         error: error.message || 'An error occurred while processing your request',
         details: error.response?.data || null,
         type: 'unknown_error'
