@@ -6,7 +6,7 @@ import { Message } from 'ai/react'
 interface ChatInterfaceProps {
   messages: Message[]
   input: string
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
+  handleInputChange: (e: React.ChangeEvent<any>) => void
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
   isLoading: boolean
   systemPrompt: string

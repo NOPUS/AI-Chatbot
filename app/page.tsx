@@ -80,7 +80,7 @@ export default function Home() {
     <ChatInterface
       messages={messages}
       input={input}
-      handleInputChange={handleInputChange}
+      handleInputChange={handleInputChange as any}
       handleSubmit={handleSubmit}
       isLoading={isLoading}
       systemPrompt={systemPrompt}
